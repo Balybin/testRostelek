@@ -1,0 +1,32 @@
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Test</a>
+  </div>
+</nav>
+<div class="d-flex flex-column flex-grow-1 p-1 align-self-center col-9">
+  <div class="justify-content-center">
+    <form class="d-flex" #form="ngForm">
+      <div class="form-floating flex-grow-1">
+        <label *ngIf="form.dirty && !form.valid" for="githubAcc">Must be not empty</label>
+        <input type="text" required minlength="1" [(ngModel)]="githubAcc" class="form-control"
+          [class.is-invalid]="form.dirty && !form.valid" name="githubAcc" id="githubAcc" placeholder="Input acc">
+      </div>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!form.dirty || !form.valid"
+        (click)="loadFollowers(githubAcc)">Get followers</button>
+    </form>
+  </div>
+  <div class="justify-content-center flex-grow-1">
+    <app-list *ngIf="followers!= null && followers.length > 0" [items]="followers" class="w-100 flex-grow-1"
+      [height]="120">
+      <ng-template #template let-follower>
+        <div class="d-flex h-100">
+          <img *ngIf="follower?.avatarUrl" class="rounded-img" [src]="follower?.avatarUrl" style="height: 80px;">
+          <div class="d-flex flex-grow-1 flex-column ps-4">
+            <h5>{{follower.login}}</h5>
+            <a [href]="follower?.htmlUrl">{{follower?.htmlUrl}}</a>
+          </div>
+        </div>
+      </ng-template>
+    </app-list>
+  </div>
+</div>
